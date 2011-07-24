@@ -1,0 +1,15 @@
+{% for post in posts %}
+<div class="post">
+    <h2 class="title"><a href="/post/{{ post.url_token }}">{{ post.title }}</a></h2>
+    <p class="url_token">{{ post.url_token }}</p>
+    <p class="excerpt">{{ post.excerpt }}</p>
+    
+    {% if is_admin %}
+        <p class="admin">
+            <a href="/admin/post/{{ post.key }}">Edit</a>
+            |
+            <a href="/admin/post/delete/{{ post.key }}">Delete</a>
+        </p>
+    {% endif %}
+</div>
+{% endfor %}

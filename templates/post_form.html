@@ -1,0 +1,27 @@
+<h1>Add a post</h1>
+
+<form action="/admin/post" method="post">
+    <p>
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" value="{{ post.title }}">
+    </p>
+
+    <p>
+        <label for="url_token">Url token</label>
+        <input type="text" id="url_token" name="url_token" value="{{ post.url_token }}">
+    </p>
+
+    <p>
+        <label for="excerpt">Excerpt</label>
+        <textarea id="excerpt" name="excerpt">{{ post.excerpt }}</textarea>
+    </p>
+
+    <p>
+        <label for="text">Text</label>
+        <textarea id="text" name="text">{{ post.text }}</textarea>
+    </p>
+
+    <p>
+        <button type="submit">Save</button>
+    </p>
+</form>
