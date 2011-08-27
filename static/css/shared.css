@@ -1,0 +1,117 @@
+/* CSS Mini Reset */
+
+html, body, div, form, fieldset, legend, label {
+    margin: 0;
+    padding: 0; 
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+th, td {
+    text-align: left;
+    vertical-align: top;
+}
+
+h1, h2, h3, h4, h5, h6, th, td, caption { 
+    font-weight:normal; 
+}
+
+img { 
+    border: 0; 
+}
+
+/* HTML 5 elements */
+
+header, footer, nav, section, article, aside { display: block }
+
+/* Layout stuff */
+html {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    background-repeat: no-repeat;
+    color: #333333;
+    font-family: Arial, sans-serif;
+    font-size: 75%;
+    
+    background: -webkit-linear-gradient(top, #333333 66%, #666666); 
+    background: -moz-linear-gradient(top, #333333 66%, #666666);
+}
+
+a {
+    color: #333333;
+    text-decoration: none;
+}
+
+.center {
+    width: 950px;
+    background: #ffffff;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+    position: relative;
+    
+    min-height: 600px;
+    
+    border-radius: 20px;
+    --webkit-border-radius: 20px;
+    --moz-border-radius: 20px;
+}
+
+nav {
+    color: #cccccc;
+    background: #666666;
+    overflow: hidden;
+}
+
+nav a {
+    color: #cccccc;
+}
+
+nav ul, nav li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav ul li a {
+    padding: 10px;
+    float: left;
+    border-right: 3px solid #ffffff;
+}
+
+nav ul li a.active,
+nav ul li a:hover {
+    background: #888888;
+}
+
+header {
+    color: #cccccc;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 0 10px;
+}
+
+#content {
+    padding: 40px;
+}
+
+form > p > label {
+    display: block;
+}
+
+input[type=text], textarea {
+    width: 100%;
+}
+
+textarea {
+    height: 200px;
+}
