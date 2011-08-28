@@ -29,13 +29,15 @@ header, footer, nav, section, article, aside { display: block }
 
 /* Layout stuff */
 html {
-    height: 100%;
+    min-height: 100%;
     margin: 0;
 }
 
 body {
     margin: 0;
-    height: 100%;
+    
+    padding-bottom: 30px;
+    min-height: 100%;
     background-repeat: no-repeat;
     color: #333333;
     font-family: Arial, sans-serif;
@@ -56,13 +58,14 @@ a {
     margin-left: auto;
     margin-right: auto;
     overflow: hidden;
-    position: relative;
     
     min-height: 600px;
     
-    border-radius: 20px;
-    --webkit-border-radius: 20px;
-    --moz-border-radius: 20px;
+    -webkit-border-bottom-right-radius: 20px;
+    -webkit-border-bottom-left-radius: 20px;
+
+    -moz-border-bottom-right-radius: 20px;
+    -moz-border-bottom-left-radius: 20px;
 }
 
 nav {
@@ -93,25 +96,57 @@ nav ul li a:hover {
 }
 
 header {
-    color: #cccccc;
+    position: relative;
+    padding: 20px 10px;
+}
+
+header h1 {
+    margin: 0;
+    padding: 0; 
+}
+
+header .user {
     position: absolute;
+    top: 20px;
+    right: 20px;;
+}
+
+div.message {
+    width: 100%;
     top: 0px;
-    right: 0px;
-    padding: 0 10px;
+    position: absolute;
+    background: #008888;
+    text-align: center;
+    opacity: .8;
 }
 
 #content {
     padding: 40px;
 }
 
-form > p > label {
-    display: block;
+form > p {
+    overflow: hidden;
 }
 
-input[type=text], textarea {
-    width: 100%;
+form > p > label {
+    display: block;
+    width: 130px;
+    padding: 7px 0;
+    float: left;
+}
+
+input[type=text] {
+    width: 80%;
+}
+
+button,
+input[type=text],
+input[type=checkbox], 
+form > p > div.checker {
+    float: right;
 }
 
 textarea {
+    width: 99%;
     height: 200px;
 }

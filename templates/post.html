@@ -1,6 +1,16 @@
-<div class="post">
+<article>
     <h2 class="title">{{ post.title }}</h2>
-    <p class="url_token">{{ post.url_token }}</p>
-    <p class="excerpt">{{ post.excerpt }}</p>
-    <p class="text">{{ post.text }}</p>
-</div>
+
+    <p class="published">{{ post.published }} by {{ post.user.nickname }}</p>
+
+    <p class="excerpt">{{ post.excerpt|markdown }}</p>
+    <p class="text">{{ post.text|markdown }}</p>
+
+    {% if is_admin %}
+        <p class="admin">
+            <a href="/admin/post/{{ post.key }}" class="button">Edit</a>
+            <a href="/admin/post/delete/{{ post.key }}" class="button">Delete</a>
+        </p>
+    {% endif %}
+</article>
+

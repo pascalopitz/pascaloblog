@@ -1,14 +1,14 @@
-<h1>Add a post</h1>
+<h1>{{ title }}</h1>
 
 <form action="/admin/post" method="post">
     <p>
         <label for="title">Title</label>
-        <input type="text" id="title" name="title" value="{{ post.title }}">
+        <input type="text" id="title" name="title" value="{{ post.title }}" />
     </p>
 
     <p>
         <label for="url_token">Url token</label>
-        <input type="text" id="url_token" name="url_token" value="{{ post.url_token }}">
+        <input type="text" id="url_token" name="url_token" value="{{ post.url_token }}" />
     </p>
 
     <p>
@@ -22,6 +22,13 @@
     </p>
 
     <p>
-        <button type="submit">Save</button>
+        <label for="active">Active</label>
+        <input type="checkbox" id="active" name="active" value="1" {% if post.active %} checked="checked"{% endif %} />
+    </p>
+
+    <p>
+        <span><button type="submit">Save</button></span>
+        
+        <span><a href="/admin/post/delete/{{ post.key }}" class="button">Delete</a></span>
     </p>
 </form>

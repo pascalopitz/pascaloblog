@@ -1,0 +1,6 @@
+[submodule "static/3rdparty/uniform"]
+	path = static/3rdparty/uniform
+	url = https://github.com/pixelmatrix/uniform.git
+[submodule "sources/gaeutilities"]
+	path = sources/gaeutilities
+	url = https://github.com/joerussbowman/gaeutilities.git

@@ -4,5 +4,15 @@ runtime: python
 api_version: 1
 
 handlers:
+- url: /3rdparty
+  static_dir: static/3rdparty
+
+- url: /css
+  static_dir: static/css
+
+- url: /js
+  static_dir: static/js
+
 - url: .*
   script: main.py
+
