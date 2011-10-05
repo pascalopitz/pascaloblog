@@ -19,12 +19,14 @@
             {% endif %}
         </header>
 
-        {% if is_admin %}
+        {% if user %}
         <nav>
             <ul>
+                {% if is_admin %}
                 <li><a href="/">Home</a></li>
                 <li><a href="/admin/drafts">Drafts</a></li>
                 <li><a href="/admin/post">New Post</a></li>
+                {% endif %}
                 <li><a href="{{ logout_url }}">Logout</a></li>
             </ul>
         </nav>
