@@ -2,7 +2,6 @@ from google.appengine.ext import db
 
 class Post(db.Model):
     title = db.StringProperty()
-    excerpt = db.TextProperty()
     text = db.TextProperty()
     url_token = db.StringProperty()
     active = db.BooleanProperty()

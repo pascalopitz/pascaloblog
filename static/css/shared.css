@@ -46,32 +46,21 @@ body {
     background: -webkit-linear-gradient(top, #333333 66%, #666666); 
     background: -moz-linear-gradient(top, #333333 66%, #666666);
 }
-
+                                                                                                                                 Here we go
 a {
     color: #333333;
     text-decoration: none;
-}
-
-.center {
-    width: 950px;
-    background: #ffffff;
-    margin-left: auto;
-    margin-right: auto;
-    overflow: hidden;
-    
-    min-height: 600px;
-    
-    -webkit-border-bottom-right-radius: 20px;
-    -webkit-border-bottom-left-radius: 20px;
-
-    -moz-border-bottom-right-radius: 20px;
-    -moz-border-bottom-left-radius: 20px;
 }
 
 nav {
     color: #cccccc;
     background: #666666;
     overflow: hidden;
+    position: fixed;
+    z-index: 100;
+    width: 100%;
+    top: 0px;
+    left: 0px;
 }
 
 nav a {
@@ -96,32 +85,31 @@ nav ul li a:hover {
 }
 
 header {
-    position: relative;
-    padding: 20px 10px;
+    position: fixed;
+    z-index: 201;
+    top: 0;
+    right: 0;
 }
 
 header h1 {
     margin: 0;
-    padding: 0; 
+    padding: 0 5px;
+    color: #999999;
+    font-family: Garamond, serif;
+    font-size: 28px;
 }
 
 header .user {
-    position: absolute;
-    top: 20px;
-    right: 20px;;
+    display: none;
 }
 
 div.message {
     width: 100%;
-    top: 0px;
-    position: absolute;
+    top: 30px;
+    position: fixed;
     background: #008888;
     text-align: center;
     opacity: .8;
-}
-
-#content {
-    padding: 40px;
 }
 
 form > p {
@@ -136,7 +124,7 @@ form > p > label {
 }
 
 input[type=text] {
-    width: 80%;
+    width: 70%;
 }
 
 button,
@@ -147,6 +135,59 @@ form > p > div.checker {
 }
 
 textarea {
-    width: 99%;
+    width: 98%;
     height: 200px;
+}
+
+#content {
+    width: 550px;
+    margin-top: 80px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    overflow: hidden;
+}
+
+#content article {
+    background: #ffffff;
+    
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+
+    padding: 40px;
+    margin-bottom: 70px;
+    
+    position: relative;
+} 
+
+#content article .published {
+    position: absolute;
+    margin: 0;
+    top: 20px;
+    right: 40px;
+    font-family: Garamond, serif;
+    font-size: 14px;
+}
+
+#content article .published span {
+    display: block;
+    text-align: right;
+}
+
+#content article .published span.user {
+    display: none;
+}
+
+#content article>h2 {
+    margin: 0px;
+    color: #333333;
+    font-family: Garamond, serif;
+    font-size: 40px;
+}
+
+#content article>h2>a {
+    text-decoration: none;
+    color: #333333;
 }

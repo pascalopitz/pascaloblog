@@ -1,34 +1,43 @@
-<h1>{{ title }}</h1>
+{% extends "layout.html" %} 
 
-<form action="/admin/post" method="post">
-    <p>
-        <label for="title">Title</label>
-        <input type="text" id="title" name="title" value="{{ post.title }}" />
-    </p>
+{% block title %}{{ title }}{% endblock %}
 
-    <p>
-        <label for="url_token">Url token</label>
-        <input type="text" id="url_token" name="url_token" value="{{ post.url_token }}" />
-    </p>
+{% block content %}
+<article>
+    
+    <h1>{{ title }}</h1>
 
-    <p>
-        <label for="excerpt">Excerpt</label>
-        <textarea id="excerpt" name="excerpt">{{ post.excerpt }}</textarea>
-    </p>
+    <form action="/admin/post{% if post.key %}/{{ post.key }}{% endif %}" method="post">
+        <p>
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" value="{{ post.title }}" />
+        </p>
 
-    <p>
-        <label for="text">Text</label>
-        <textarea id="text" name="text">{{ post.text }}</textarea>
-    </p>
+        <p>
+            <label for="url_token">Url token</label>
+            <input type="text" id="url_token" name="url_token" value="{{ post.url_token }}" />
+        </p>
 
-    <p>
-        <label for="active">Active</label>
-        <input type="checkbox" id="active" name="active" value="1" {% if post.active %} checked="checked"{% endif %} />
-    </p>
+        <p>
+            <label for="text">Text</label>
+            <textarea id="text" name="text">{{ post.text }}</textarea>
+        </p>
 
-    <p>
-        <span><button type="submit">Save</button></span>
+        <p>
+            <label for="active">Active</label>
+            <input type="checkbox" id="active" name="active" value="1" {% if post.active %} checked="checked"{% endif %} />
+        </p>
+
+        <p>
+            <span><button type="submit">Save</button></span>
+            
+            {% if post.key %}
+                <input type="hidden" id="key" name="key" value="{{ post.key }}" />
+            {% endif %}
         
-        <span><a href="/admin/post/delete/{{ post.key }}" class="button">Delete</a></span>
-    </p>
-</form>
+            <span><a href="/admin/post/delete/{{ post.key }}" class="button">Delete</a></span>
+        </p>
+    </form>
+    
+</article>
+{% endblock %}

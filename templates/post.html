@@ -1,16 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
 <article>
-    <h2 class="title">{{ post.title }}</h2>
+    <h2 class="title"><a href="/post/{{ post.url_token }}">{{ post.title }}</a></h2>
 
-    <p class="published">{{ post.published }} by {{ post.user.nickname }}</p>
+    {{ post|render_post:"post_date_info" }}
 
-    <p class="excerpt">{{ post.excerpt|markdown }}</p>
     <p class="text">{{ post.text|markdown }}</p>
 
     {% if is_admin %}
-        <p class="admin">
-            <a href="/admin/post/{{ post.key }}" class="button">Edit</a>
-            <a href="/admin/post/delete/{{ post.key }}" class="button">Delete</a>
-        </p>
+    {{ post|render_post:"post_admin_controls" }}
     {% endif %}
 </article>
-
+{% endblock %}

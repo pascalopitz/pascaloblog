@@ -9,8 +9,6 @@ from models import *
 
 from appengine_utilities import sessions
 
-
-
 class BaseHandler(webapp.RequestHandler):
     def __init__(self):
         self.session = sessions.Session()
@@ -20,9 +18,7 @@ class BaseHandler(webapp.RequestHandler):
     def render(self, template_file, template_values):
         
         template.register_template_library('filters')        
-        
         template_path = os.path.join(os.path.dirname(__file__), 'templates', template_file)
-        layout_path = os.path.join(os.path.dirname(__file__), 'templates', 'layout.html')
         
         template_values['is_admin'] = self.is_admin
         template_values['user'] = self.user
@@ -34,10 +30,7 @@ class BaseHandler(webapp.RequestHandler):
         else:
             template_values['message'] = False
         
-        layout_values = template_values
-        layout_values['content'] = template.render(template_path, template_values)
-        
-        output = template.render(layout_path, layout_values)
+        output = template.render(template_path, template_values)
         self.response.out.write(output)
 
         
@@ -61,12 +54,12 @@ class IndexHandler(BaseHandler):
 
         q = Post.all()
         q.filter("active =", True)
-        posts = q.fetch(5)
+        posts = q.fetch(1000)
 
         template_values = {}
-        template_values['title'] = 'Homepage'
         template_values['posts'] = posts
-        self.render('index.html', template_values)
+        template_values['title'] = 'Pascal\'s Blog'
+        self.render('posts.html', template_values)
 
 
 class DraftsHandler(AdminBaseHandler):
@@ -77,25 +70,24 @@ class DraftsHandler(AdminBaseHandler):
         posts = q.fetch(1000)
         
         template_values = {}
-        template_values['title'] = 'Homepage'
         template_values['posts'] = posts
-        self.render('index.html', template_values)
+        template_values['title'] = 'Drafts'
+        self.render('posts.html', template_values)
                                  
 
 class PostHandler(BaseHandler):
     def get(self, url_token):
         
-        post = Post.get_by_key_name(url_token)
+        posts = Post.gql('WHERE url_token = :url_token', url_token=url_token)
+        post = posts[0]
         
         if(True == post.active or True == self.is_admin):
             template_values = {}
-            template_values['title'] = 'Post - ' + post.title
             template_values['post'] = post
             self.render('post.html', template_values)
         else:
             self.message('Not allowed')
             return self.redirect('/')
-        
 
 
 class PostDeleteHandler(AdminBaseHandler):
@@ -118,23 +110,24 @@ class LoginHandler(BaseHandler):
 class PostFormHandler(AdminBaseHandler):
     def get(self, key=None):
         template_values = {}
+        template_values['title'] = 'Edit Post'
 
         if key is not None:
             post = Post.get(key)
-            template_values['title'] = 'Edit Post - ' + post.title
             template_values['post'] = post
-        else:
-            template_values['title'] = 'Add Post'
         
         self.render('post_form.html', template_values)
 
         
-    def post(self):
-        url_token = self.request.get('url_token')
-
-        post = Post.get_or_insert(url_token)
+    def post(self, key=None):
+        template_values = {}
         
-        if(False == post.active):
+        post = Post()
+
+        if(None != key):
+            post = Post.get(key)
+            
+        if(None == post.active or False == post.active):
             post.published = datetime.datetime.now()
         
         post.title = self.request.get('title')
@@ -143,14 +136,23 @@ class PostFormHandler(AdminBaseHandler):
         post.text = self.request.get('text')
         post.active = bool(self.request.get('active'))
         post.user = users.get_current_user()
-
-        post.save()
-
+        
+        if(None != key):
+            post.save()
+        else:
+            post.put()
+        
         if post.is_saved():
             self.message('Saved post')
-            self.redirect('/')
+            if(post.active):
+                self.redirect('/')
+            else:
+                self.redirect('/admin/drafts')
+                
         else:
+            template_values['post'] = post
+            template_values['title'] = 'Edit Post'
+        
             self.message('Error saving')
             self.render('post_form.html', template_values)
-            
-            
+                        

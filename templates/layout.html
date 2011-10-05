@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>{{ title }}</title>
+        <title>{%block title%}{%endblock%}</title>
         
         <link rel="stylesheet" type="text/css" href="/3rdparty/uniform/css/uniform.default.css" media="screen" />
         <link rel="stylesheet" type="text/css" href="/css/shared.css">
@@ -11,30 +11,28 @@
             <div class="message"><p>{{ message }}</p></div>
         {% endif %}
 
-        <div class="center">
-            <header>
-                <h1>Pascal's Blog</h1>
-                
-                {% if user %}
-                <p class="user">Hello {{ user.nickname }}</p>
-                {% endif %}
-            </header>
+        <header>
+            <h1>Pascal's Blog</h1>
+            
+            {% if user %}
+            <p class="user">Hello {{ user.nickname }}</p>
+            {% endif %}
+        </header>
 
-            <nav>
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    {% if is_admin %}
-                    <li><a href="/admin/drafts">Drafts</a></li>
-                    <li><a href="/admin/post">New Post</a></li>
-                    {% endif %}
-                    {% if user %}<li><a href="{{ logout_url }}">Logout</a></li>{% endif %}
-                </ul>
-            </nav>
+        {% if is_admin %}
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/admin/drafts">Drafts</a></li>
+                <li><a href="/admin/post">New Post</a></li>
+                <li><a href="{{ logout_url }}">Logout</a></li>
+            </ul>
+        </nav>
+        {% endif %}
         
-            <div id="content">
-                {{ content }}
-            </div>
-        </div>
+        <section id="content">
+            {%block content%}{%endblock%}
+        </section>
         <script type="text/javascript" src="/3rdparty/jquery-1.6.2.min.js"></script>
         <script type="text/javascript" src="/3rdparty/uniform/jquery.uniform.min.js"></script>
         <script type="text/javascript" src="/js/shared.js"></script>
