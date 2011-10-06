@@ -23,6 +23,7 @@ $(function() {
 
     $('body').delegate('.show-more', 'click', function(e) {
         loadMore.call(this, e);
+        return false;
     });
     
     $(document).bind('scroll', function(e) {
