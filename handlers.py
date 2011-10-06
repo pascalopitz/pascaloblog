@@ -69,7 +69,7 @@ class IndexHandler(BaseHandler):
 
         template_values = {}
         template_values['posts'] = posts
-        template_values['active'] = True
+        template_values['active'] = 1
         template_values['title'] = 'Pascal\'s Blog'
         template_values['offset'] = 5
         template_values['count'] = 5
@@ -77,15 +77,16 @@ class IndexHandler(BaseHandler):
 
 class AjaxMoreHandler(BaseHandler):
     def get(self):
+        active = bool(int(self.request.get('active')))
 
         q = Post.all()
-        q.filter("active =", bool(self.request.get('active')))
+        q.filter("active =", active)
         q.order('-published')
         posts = q.fetch(int(self.request.get('count')), int(self.request.get('offset')))
 
         template_values = {}
         template_values['posts'] = posts
-        template_values['active'] = bool(self.request.get('active'))
+        template_values['active'] = int(self.request.get('active'))
         template_values['offset'] = int(self.request.get('count')) + int(self.request.get('offset'))
         template_values['count'] = int(self.request.get('offset'))
         self.render('posts_ajax.html', template_values)
@@ -100,7 +101,7 @@ class DraftsHandler(AdminBaseHandler):
         
         template_values = {}
         template_values['posts'] = posts
-        template_values['active'] = False
+        template_values['active'] = 0
         template_values['title'] = 'Drafts'
         template_values['offset'] = 5
         template_values['count'] = 5
