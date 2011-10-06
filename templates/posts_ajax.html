@@ -1,8 +1,3 @@
-{% extends "layout.html" %} 
-
-{% block title %}{{ title }}{% endblock %}
-
-{% block content %}
 {% for post in posts %}
 <article>
     <h2 class="title"><a href="/post/{{ post.url_token }}">{{ post.title }}</a></h2>
@@ -18,4 +13,3 @@
 {% endfor %}
 
 <a class="show-more" href="/posts/more?offset={{ offset }}&count={{ count }}&active={{ active }}">More</a>
-{% endblock %}

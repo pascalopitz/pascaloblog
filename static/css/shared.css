@@ -227,3 +227,13 @@ article p {
     padding-top: 20px;
     margin: 0;
 }
+
+.show-more {
+    font-family: Garamond, serif;
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.show-more:after {
+    content: ' ';
+}

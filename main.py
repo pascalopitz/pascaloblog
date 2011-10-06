@@ -29,6 +29,7 @@ from handlers import *
 mappings = [
     ('/', IndexHandler),
     ('/post/([\d\w_-]+)', PostHandler),
+    ('/posts/more', AjaxMoreHandler),
     ('/login', LoginHandler),
     ('/admin/drafts', DraftsHandler),
     ('/admin/post', PostFormHandler),

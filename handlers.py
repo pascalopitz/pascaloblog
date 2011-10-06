@@ -65,13 +65,30 @@ class IndexHandler(BaseHandler):
         q = Post.all()
         q.filter("active =", True)
         q.order('-published')
-        posts = q.run()
+        posts = q.fetch(5)
 
         template_values = {}
         template_values['posts'] = posts
+        template_values['active'] = True
         template_values['title'] = 'Pascal\'s Blog'
+        template_values['offset'] = 5
+        template_values['count'] = 5
         self.render('posts.html', template_values)
 
+class AjaxMoreHandler(BaseHandler):
+    def get(self):
+
+        q = Post.all()
+        q.filter("active =", bool(self.request.get('active')))
+        q.order('-published')
+        posts = q.fetch(int(self.request.get('count')), int(self.request.get('offset')))
+
+        template_values = {}
+        template_values['posts'] = posts
+        template_values['active'] = bool(self.request.get('active'))
+        template_values['offset'] = int(self.request.get('count')) + int(self.request.get('offset'))
+        template_values['count'] = int(self.request.get('offset'))
+        self.render('posts_ajax.html', template_values)
 
 class DraftsHandler(AdminBaseHandler):
     def get(self):
@@ -79,11 +96,14 @@ class DraftsHandler(AdminBaseHandler):
         q = Post.all()
         q.filter("active =", False)
         q.order('-published')
-        posts = q.run()
+        posts = q.fetch(5)
         
         template_values = {}
         template_values['posts'] = posts
+        template_values['active'] = False
         template_values['title'] = 'Drafts'
+        template_values['offset'] = 5
+        template_values['count'] = 5
         self.render('posts.html', template_values)
                                  
 
