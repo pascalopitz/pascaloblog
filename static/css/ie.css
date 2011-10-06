@@ -1,3 +1,7 @@
 body {
     background: #333333;
 }
+
+.show-more:after {
+    content: ' >';
+}
