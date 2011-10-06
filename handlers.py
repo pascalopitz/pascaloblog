@@ -22,6 +22,7 @@ class BaseHandler(webapp.RequestHandler):
         
         template_values['is_admin'] = self.is_admin
         template_values['user'] = self.user
+        template_values['http_host'] = self.request.host_url
         template_values['logout_url'] = users.create_logout_url('/')
 
         if(self.session.has_key('message')):
@@ -74,6 +75,21 @@ class IndexHandler(BaseHandler):
         template_values['offset'] = 5
         template_values['count'] = 5
         self.render('posts.html', template_values)
+
+class FeedHandler(BaseHandler):
+    def get(self):
+
+        q = Post.all()
+        q.filter("active =", True)
+        q.order('-published')
+        posts = q.fetch(15)
+
+        template_values = {}
+        template_values['posts'] = posts
+        template_values['date'] = datetime.datetime.now()
+
+        self.response.headers["Content-Type"] = "application/atom+xml"
+        self.render('atom.xml', template_values)
 
 class AjaxMoreHandler(BaseHandler):
     def get(self):

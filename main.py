@@ -31,6 +31,7 @@ mappings = [
     ('/post/([\d\w_-]+)', PostHandler),
     ('/posts/more', AjaxMoreHandler),
     ('/login', LoginHandler),
+    ('/atom.xml', FeedHandler),
     ('/admin/drafts', DraftsHandler),
     ('/admin/post', PostFormHandler),
     ('/admin/post/([\d\w_-]+)', PostFormHandler),

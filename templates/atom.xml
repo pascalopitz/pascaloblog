@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>                             
+<feed xmlns="http://www.w3.org/2005/Atom">
+        <title>Pascal's Blog</title>
+        <link href="{{ http_host }}/atom.xml" rel="self" />
+        <link href="{{ http_host }}/" />
+        <id>{{ http_host }}/</id>
+        <updated>{{ date|atomdate }}</updated>
+        <author>
+                <name>Pascal Opitz</name>
+        </author>
+
+        {% for post in posts %}
+        <entry>
+                <title>{{ post.title }}</title>
+                <link href="{{ http_host }}/post/{{ post.url_token }}" />
+                <id>{{ http_host }}/post/{{ post.url_token }}</id>
+                <updated>{{ post.published|atomdate }}</updated>
+                <content type="html">{{ post.text|markdown }}</content>
+        </entry>
+        {% endfor %}
+</feed>
