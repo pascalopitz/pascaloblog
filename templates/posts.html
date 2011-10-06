@@ -1,0 +1,17 @@
+{% extends "layout.html" %} 
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+{% for post in posts %}
+<article>
+    <h2 class="title"><a href="/post/{{ post.url_token }}">{{ post.title }}</a></h2>
+
+    {{ post|render_post:"post_date_info" }}
+
+    {% if is_admin %}
+    {{ post|render_post:"post_admin_controls" }}
+    {% endif %}
+</article>
+{% endfor %}
+{% endblock %}
