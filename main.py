@@ -34,6 +34,7 @@ mappings = [
     ('/admin/post', PostFormHandler),
     ('/admin/post/([\d\w_-]+)', PostFormHandler),
     ('/admin/post/delete/([\d\w_-]+)', PostDeleteHandler),
+    ('/.*', NotFoundHandler),
 ]
 
 def main():

@@ -32,7 +32,10 @@ class BaseHandler(webapp.RequestHandler):
         
         output = template.render(template_path, template_values)
         self.response.out.write(output)
-
+    
+    def render404(self):
+        self.error(404)
+        self.render('404.html', {})
         
     def message(self, message):
         self.session['message'] = message;
@@ -49,12 +52,20 @@ class AdminBaseHandler(BaseHandler):
             self.redirect('/')
 
 
+class NotFoundHandler(BaseHandler):
+    def get(self):
+        return self.render404()
+
+    def post(self):
+        return self.render404()
+
 class IndexHandler(BaseHandler):
     def get(self):
 
         q = Post.all()
         q.filter("active =", True)
-        posts = q.fetch(1000)
+        q.order('-published')
+        posts = q.run()
 
         template_values = {}
         template_values['posts'] = posts
@@ -67,7 +78,8 @@ class DraftsHandler(AdminBaseHandler):
 
         q = Post.all()
         q.filter("active =", False)
-        posts = q.fetch(1000)
+        q.order('-published')
+        posts = q.run()
         
         template_values = {}
         template_values['posts'] = posts
@@ -78,16 +90,20 @@ class DraftsHandler(AdminBaseHandler):
 class PostHandler(BaseHandler):
     def get(self, url_token):
         
-        posts = Post.gql('WHERE url_token = :url_token', url_token=url_token)
-        post = posts[0]
-        
+        q = Post.all()
+        q.filter("url_token =", url_token)
+        post = q.get()
+
+        if(None == post):
+            return self.render404()
+
         if(True == post.active or True == self.is_admin):
             template_values = {}
             template_values['post'] = post
-            self.render('post.html', template_values)
-        else:
-            self.message('Not allowed')
-            return self.redirect('/')
+            return self.render('post.html', template_values)
+
+        self.message('Not allowed')
+        return self.redirect('/')
 
 
 class PostDeleteHandler(AdminBaseHandler):
