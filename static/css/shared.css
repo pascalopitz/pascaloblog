@@ -204,6 +204,10 @@ textarea {
     color: #333333;
 }
 
+#content article>h2>a:hover {
+    text-decoration: underline;
+}
+
 article .summary * {
     display: inline;
 }

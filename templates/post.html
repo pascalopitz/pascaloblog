@@ -4,7 +4,7 @@
 
 {% block content %}
 <article>
-    <h2 class="title"><a href="/post/{{ post.url_token }}">{{ post.title }}</a></h2>
+    <h2 class="title">{{ post.title }}</h2>
 
     {{ post|render_post:"post_date_info" }}
 
