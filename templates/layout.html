@@ -5,7 +5,13 @@
         
         <link rel="stylesheet" type="text/css" href="/3rdparty/uniform/css/uniform.default.css" media="screen" />
         <link rel="stylesheet" type="text/css" href="/css/shared.css" />
+
         <!--[if IE]><link rel="stylesheet" type="text/css" media="screen" href="/css/ie.css" /><![endif]-->
+        <!--[if lte IE 8]>
+            <script src="/3rdparty/html5.js" type="text/javascript"></script>
+            <script src="/3rdparty/DD_roundies_0.0.2a-min.js" type="text/javascript"></script>
+            <script src="/js/ie.js" type="text/javascript"></script>
+        <![endif]-->
     </head>
     <body>
         {% if message %}
