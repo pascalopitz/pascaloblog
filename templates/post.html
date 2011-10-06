@@ -8,7 +8,7 @@
 
     {{ post|render_post:"post_date_info" }}
 
-    <p class="text">{{ post.text|markdown }}</p>
+    <div class="text">{{ post.text|markdown }}</div>
 
     {% if is_admin %}
     {{ post|render_post:"post_admin_controls" }}

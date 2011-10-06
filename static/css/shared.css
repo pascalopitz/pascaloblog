@@ -177,6 +177,7 @@ textarea {
 #content article .published {
     position: absolute;
     margin: 0;
+    padding: 0;
     top: 20px;
     right: 40px;
     font-family: Garamond, serif;
@@ -201,4 +202,24 @@ textarea {
 #content article>h2>a {
     text-decoration: none;
     color: #333333;
+}
+
+article .summary * {
+    display: inline;
+}
+
+article .summary {
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+
+    text-overflow: ellipsis; 
+    -o-text-overflow: ellipsis;
+    
+    padding-top: 20px;
+}
+
+article p {
+    padding-top: 20px;
+    margin: 0;
 }

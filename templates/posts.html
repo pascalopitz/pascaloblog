@@ -9,6 +9,8 @@
 
     {{ post|render_post:"post_date_info" }}
 
+    <div class="text summary">{{ post.text|markdown }}</div>
+
     {% if is_admin %}
     {{ post|render_post:"post_admin_controls" }}
     {% endif %}
