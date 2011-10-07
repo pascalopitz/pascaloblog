@@ -5,7 +5,18 @@ $(function() {
     }, 3000);
     
     //initialize for styling
-    (function initForms() {
-        $("select, input:checkbox, input:radio, input:file, input:text, textarea, button, a.button").filter(':not(.uniform)').addClass('uniform').uniform();
-    }());
+    $("select, input:checkbox, input:radio, input:file, input:text, textarea, button, a.button").filter(':not(.uniform)').addClass('uniform').uniform();
+    
+    //Type title updates url token
+    if($('input#url_token').val() == '') {
+        var update = function(e) {
+            var title = $(this).val().replace(/[^1-9a-z]/gi, '-');
+            $('input#url_token').val(title);
+        };
+        
+        $('input#title').bind('keypress', update);
+        $('input#url_token').focus(function() {
+            $('input#title').unbind('keypress', update);
+        });
+    }
 });
