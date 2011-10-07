@@ -3,13 +3,21 @@ $(function() {
         $("select, input:checkbox, input:radio, input:file, input:text, textarea, button, a.button").filter(':not(.uniform)').addClass('uniform').uniform();
     }
     
+    var loading = false;
+    
     function loadMore(e) {
+        if(loading) {
+            return false
+        };
+
+        loading = true;
         var link = this;
-        
+
         $.get($(link).attr('href'), function(data) {
             $(link).before(data);
             initForms();
             $(link).remove();
+            loading = false;
         });
         
         return false;

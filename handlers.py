@@ -67,6 +67,7 @@ class IndexHandler(BaseHandler):
         q.filter("active =", True)
         q.order('-published')
         posts = q.fetch(5)
+        total = q.count()
 
         template_values = {}
         template_values['posts'] = posts
@@ -74,6 +75,7 @@ class IndexHandler(BaseHandler):
         template_values['title'] = 'Pascal\'s Blog'
         template_values['offset'] = 5
         template_values['count'] = 5
+        template_values['more'] = ( total > 5 )
         self.render('posts.html', template_values)
 
 class FeedHandler(BaseHandler):
@@ -99,12 +101,14 @@ class AjaxMoreHandler(BaseHandler):
         q.filter("active =", active)
         q.order('-published')
         posts = q.fetch(int(self.request.get('count')), int(self.request.get('offset')))
+        total = q.count()
 
         template_values = {}
         template_values['posts'] = posts
         template_values['active'] = int(self.request.get('active'))
         template_values['offset'] = int(self.request.get('count')) + int(self.request.get('offset'))
-        template_values['count'] = int(self.request.get('offset'))
+        template_values['count'] = int(self.request.get('count'))
+        template_values['more'] = ( total > (int(self.request.get('offset')) + (int(self.request.get('count')) * 2 )) )
         self.render('posts_ajax.html', template_values)
 
 class DraftsHandler(AdminBaseHandler):
@@ -114,6 +118,7 @@ class DraftsHandler(AdminBaseHandler):
         q.filter("active =", False)
         q.order('-published')
         posts = q.fetch(5)
+        total = q.count()
         
         template_values = {}
         template_values['posts'] = posts
@@ -121,6 +126,7 @@ class DraftsHandler(AdminBaseHandler):
         template_values['title'] = 'Drafts'
         template_values['offset'] = 5
         template_values['count'] = 5
+        template_values['more'] = ( total > 5 )
         self.render('posts.html', template_values)
                                  
 

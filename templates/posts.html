@@ -17,5 +17,7 @@
 </article>
 {% endfor %}
 
+{% if more %}
 <a class="show-more" href="/posts/more?offset={{ offset }}&count={{ count }}&active={{ active }}">More</a>
+{% endif %}
 {% endblock %}

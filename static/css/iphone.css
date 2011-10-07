@@ -1,0 +1,8 @@
+body {
+    width: 320px;
+}
+
+body #content {
+    width: 300px;
+    margin-top: 40px;
+}
