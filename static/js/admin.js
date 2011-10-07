@@ -14,9 +14,11 @@ $(function() {
             $('input#url_token').val(title);
         };
         
-        $('input#title').bind('keypress', update);
+        $('input#title').bind('keyup', update);
         $('input#url_token').focus(function() {
-            $('input#title').unbind('keypress', update);
+            $('input#title').unbind('keyup', update);
         });
     }
+    
+    $('textarea').tabby();
 });

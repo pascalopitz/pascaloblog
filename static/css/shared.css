@@ -212,6 +212,10 @@ article .summary * {
     display: inline;
 }
 
+article .summary pre {
+    display: none;
+}
+
 article .summary {
     white-space: nowrap;
     width: 100%;
@@ -236,4 +240,8 @@ article p {
 
 .show-more:after {
     content: ' ↓';
+}
+
+.codehilite {
+    font-size: 12px;
 }

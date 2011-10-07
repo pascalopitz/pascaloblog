@@ -7,7 +7,7 @@ from google.appengine.ext.webapp import template
 
 @register.filter
 def markdown(value):
-    return md.markdown(value, extensions=['codehilite(force_linenos=True)'], safe_mode="escape")
+    return md.markdown(value, extensions=['codehilite'], safe_mode="escape")
 
 @register.filter
 def formatdate(d):
