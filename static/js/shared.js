@@ -1,8 +1,4 @@
 $(function() {
-    function initForms() {
-        $("select, input:checkbox, input:radio, input:file, input:text, textarea, button, a.button").filter(':not(.uniform)').addClass('uniform').uniform();
-    }
-    
     var loading = false;
     
     function loadMore(e) {
@@ -11,7 +7,9 @@ $(function() {
         };
 
         loading = true;
+
         var link = this;
+        $(link).fadeOut();
 
         $.get($(link).attr('href'), function(data) {
             $(link).before(data);
@@ -22,12 +20,6 @@ $(function() {
         
         return false;
     }
-
-    window.setTimeout(function() {
-        $('.message').fadeOut();
-    }, 3000);
-    
-    initForms();
 
     $('body').delegate('.show-more', 'click', function(e) {
         loadMore.call(this, e);
