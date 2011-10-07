@@ -244,4 +244,13 @@ article p {
 
 .codehilite {
     font-size: 12px;
+    overflow: hidden;
+    padding: 4px;
+    margin-top: 15px;
+    background: #eeeeee;
+}
+
+.codehilite pre {
+    margin: 0;
+    padding: 0;
 }

@@ -31,4 +31,14 @@ $(function() {
             loadMore.call($('.show-more:in-viewport').get(0), e);
         }
     });
+    
+    $('article .codehilite').each(function() {
+        if($(this).find('pre').width() > $(this).width()) {
+            $(this).bind('mouseover', function() {
+                $(this).css('overflow', 'scroll');
+            }).bind('mouseout', function() {
+                $(this).css('overflow', 'hidden');
+            });
+        }
+    });
 });
