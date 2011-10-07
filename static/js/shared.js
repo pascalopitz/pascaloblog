@@ -33,11 +33,13 @@ $(function() {
     });
     
     $('article .codehilite').each(function() {
-        if($(this).find('pre').width() > $(this).width()) {
-            $(this).bind('mouseover', function() {
-                $(this).css('overflow', 'scroll');
+        if(this.clientWidth < this.scrollWidth) {
+            $(this)
+            .css('overflow-x', 'hidden')
+            .bind('mouseover', function() {
+                $(this).css('overflow-x', 'scroll');
             }).bind('mouseout', function() {
-                $(this).css('overflow', 'hidden');
+                $(this).css('overflow-x', 'hidden');
             });
         }
     });
