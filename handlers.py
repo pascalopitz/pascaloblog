@@ -16,9 +16,14 @@ class BaseHandler(webapp.RequestHandler):
         self.is_admin = users.is_current_user_admin()
         self.user = users.get_current_user()
         
-    def render(self, template_file, template_values, cache_key=None):
+    def render(self, template_file, template_values, cache_key=None, cache_lifetime=600):
+        
+        cache_value = None
         
         if(None != cache_key):
+            if(self.is_admin):
+                cache_key = cache_key + '__admin'
+            
             cache_value = memcache.get(cache_key)
 
         if(None != cache_value):
@@ -42,14 +47,14 @@ class BaseHandler(webapp.RequestHandler):
             output = template.render(template_path, template_values)
 
             if(None != cache_key):
-                memcache.add(cache_key, output, 600)
+                memcache.add(cache_key, output, cache_lifetime)
                 
             self.response.out.write(output)
             return
     
     def render404(self):
         self.error(404)
-        self.render('404.html', {})
+        self.render('404.html', {}, cache_key='404', cache_lifetime=6000)
         
     def message(self, message):
         self.session['message'] = message;
@@ -122,7 +127,7 @@ class AjaxMoreHandler(BaseHandler):
         template_values['offset'] = int(self.request.get('count')) + int(self.request.get('offset'))
         template_values['count'] = int(self.request.get('count'))
         template_values['more'] = ( total > (int(self.request.get('offset')) + (int(self.request.get('count')) * 2 )) )
-        self.render('posts_ajax.html', template_values)
+        self.render('posts_ajax.html', template_values, 'ajax_more_' + self.request.get('offset') + '_' + self.request.get('count'))
 
 class DraftsHandler(AdminBaseHandler):
     def get(self):
@@ -156,7 +161,7 @@ class PostHandler(BaseHandler):
         if(True == post.active or True == self.is_admin):
             template_values = {}
             template_values['post'] = post
-            return self.render('post.html', template_values)
+            return self.render('post.html', template_values, url_token)
 
         self.message('Not allowed')
         return self.redirect('/')
@@ -215,6 +220,10 @@ class PostFormHandler(AdminBaseHandler):
             post.put()
         
         if post.is_saved():
+            
+            memcache.delete(self.request.get('url_token'))
+            memcache.delete(self.request.get('url_token') + '__admin')
+            
             self.message('Saved post')
             if(post.active):
                 self.redirect('/')
