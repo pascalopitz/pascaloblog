@@ -4,6 +4,7 @@ import datetime
 from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
+from google.appengine.api import memcache
 
 from models import *
 
@@ -15,24 +16,36 @@ class BaseHandler(webapp.RequestHandler):
         self.is_admin = users.is_current_user_admin()
         self.user = users.get_current_user()
         
-    def render(self, template_file, template_values):
+    def render(self, template_file, template_values, cache_key=None):
         
-        template.register_template_library('filters')        
-        template_path = os.path.join(os.path.dirname(__file__), 'templates', template_file)
-        
-        template_values['is_admin'] = self.is_admin
-        template_values['user'] = self.user
-        template_values['http_host'] = self.request.host_url
-        template_values['logout_url'] = users.create_logout_url('/')
+        if(None != cache_key):
+            cache_value = memcache.get(cache_key)
 
-        if(self.session.has_key('message')):
-            template_values['message'] = self.session['message']
-            del self.session['message']
+        if(None != cache_value):
+            self.response.out.write(cache_value)
+            return
         else:
-            template_values['message'] = False
+            template.register_template_library('filters')        
+            template_path = os.path.join(os.path.dirname(__file__), 'templates', template_file)
         
-        output = template.render(template_path, template_values)
-        self.response.out.write(output)
+            template_values['is_admin'] = self.is_admin
+            template_values['user'] = self.user
+            template_values['http_host'] = self.request.host_url
+            template_values['logout_url'] = users.create_logout_url('/')
+
+            if(self.session.has_key('message')):
+                template_values['message'] = self.session['message']
+                del self.session['message']
+            else:
+                template_values['message'] = False
+        
+            output = template.render(template_path, template_values)
+
+            if(None != cache_key):
+                memcache.add(cache_key, output, 600)
+                
+            self.response.out.write(output)
+            return
     
     def render404(self):
         self.error(404)
@@ -76,7 +89,7 @@ class IndexHandler(BaseHandler):
         template_values['offset'] = 5
         template_values['count'] = 5
         template_values['more'] = ( total > 5 )
-        self.render('posts.html', template_values)
+        self.render('posts.html', template_values, 'index')
 
 class FeedHandler(BaseHandler):
     def get(self):
@@ -91,7 +104,7 @@ class FeedHandler(BaseHandler):
         template_values['date'] = datetime.datetime.now()
 
         self.response.headers["Content-Type"] = "application/atom+xml"
-        self.render('atom.xml', template_values)
+        self.render('atom.xml', template_values, 'feed')
 
 class AjaxMoreHandler(BaseHandler):
     def get(self):
