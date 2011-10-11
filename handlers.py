@@ -16,13 +16,13 @@ class BaseHandler(webapp.RequestHandler):
         self.is_admin = users.is_current_user_admin()
         self.user = users.get_current_user()
         
-    def render(self, template_file, template_values, cache_key=None, cache_lifetime=600):
+    def render(self, template_file, template_values, cache_key=None, cache_lifetime=360000):
         
         cache_value = None
         
         if(None != cache_key):
             if(self.is_admin):
-                cache_key = cache_key + '__admin'
+                cache_key = cache_key + '_' + str(self.user.nickname)
             
             cache_value = memcache.get(cache_key)
 
@@ -54,7 +54,7 @@ class BaseHandler(webapp.RequestHandler):
     
     def render404(self):
         self.error(404)
-        self.render('404.html', {}, cache_key='404', cache_lifetime=6000)
+        self.render('404.html', {}, cache_key='404')
         
     def message(self, message):
         self.session['message'] = message;
@@ -220,10 +220,7 @@ class PostFormHandler(AdminBaseHandler):
             post.put()
         
         if post.is_saved():
-            
-            memcache.delete(self.request.get('url_token'))
-            memcache.delete(self.request.get('url_token') + '__admin')
-            
+            memcache.flush_all()
             self.message('Saved post')
             if(post.active):
                 self.redirect('/')
