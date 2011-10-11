@@ -16,10 +16,3 @@ def formatdate(d):
 @register.filter
 def atomdate(d):
     return d.strftime("%Y-%m-%dT%H:%M:%SZ")
-
-@register.filter
-def render_post(post, template_name):
-    template_values = {}
-    template_values['post'] = post
-    template_path = os.path.join(os.path.dirname(__file__), 'templates', template_name +'.html')
-    return template.render(template_path, template_values)    

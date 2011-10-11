@@ -6,12 +6,18 @@
 <article>
     <h2 class="title">{{ post.title }}</h2>
 
-    {{ post|render_post:"post_date_info" }}
+    <p class="published">
+        <span class="date">{{ post.published|formatdate }}</span>
+        <span class="user">by {{ post.user.nickname }}</span>
+    </p>
 
     <div class="text">{{ post.text|markdown }}</div>
 
     {% if is_admin %}
-    {{ post|render_post:"post_admin_controls" }}
+    <p class="admin">
+        <a href="/admin/post/{{ post.key }}" class="button">Edit</a>
+        <a href="/admin/post/delete/{{ post.key }}" class="button">Delete</a>
+    </p>
     {% endif %}
 </article>
 {% endblock %}
