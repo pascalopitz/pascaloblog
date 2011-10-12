@@ -11,7 +11,7 @@
         <span class="user">by {{ post.user.nickname }}</span>
     </p>
 
-    <div class="text">{{ post.text|markdown }}</div>
+    <div class="text">{{ post.text|markdown|safe }}</div>
 
     {% if is_admin %}
     <p class="admin">

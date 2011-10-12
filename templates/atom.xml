@@ -15,7 +15,7 @@
                 <link href="{{ http_host }}/post/{{ post.url_token }}" />
                 <id>{{ http_host }}/post/{{ post.url_token }}</id>
                 <updated>{{ post.published|atomdate }}</updated>
-                <content type="html"><![CDATA[{{ post.text|markdown }}]]></content>
+                <content type="html"><![CDATA[{{ post.text|markdown|safe }}]]></content>
         </entry>
         {% endfor %}
 </feed>

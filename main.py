@@ -15,10 +15,11 @@
 # limitations under the License.
 #
 import os
+from google.appengine.dist import use_library
+use_library('django', '1.2')
+
 os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 
-# from google.appengine.dist import use_library
-# use_library('django', '1.2')
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
@@ -36,6 +37,7 @@ mappings = [
     ('/admin/post', PostFormHandler),
     ('/admin/post/([\d\w_-]+)', PostFormHandler),
     ('/admin/post/delete/([\d\w_-]+)', PostDeleteHandler),
+    ('/admin/migrate', MigratePostToBlogPostHandler),
     ('/.*', NotFoundHandler),
 ]
 

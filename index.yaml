@@ -13,6 +13,13 @@ indexes:
 - kind: Post
   properties:
   - name: active
+  - name: class
+  - name: published
+    direction: desc
+
+- kind: Post
+  properties:
+  - name: active
   - name: published
     direction: desc
 
@@ -20,5 +27,11 @@ indexes:
   properties:
   - name: active
   - name: url_token
+  - name: published
+    direction: desc
+
+- kind: PostItem
+  properties:
+  - name: active
   - name: published
     direction: desc
